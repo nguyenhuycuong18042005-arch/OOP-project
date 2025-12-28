@@ -1,7 +1,8 @@
 package oop.project.service;
+
 import com.google.gson.reflect.TypeToken;
-import com.project.oop.lms.model.DocGia;
-import com.project.oop.lms.repository.JsonDataManager;
+import oop.project.model.DocGia;
+import oop.project.repository.JsonDataManager;
 
 import java.lang.reflect.Type;
 import java.util.List;

@@ -187,7 +187,7 @@ public class MuonTraService implements IGeneralService<PhieuMuon> {
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // DESC
                 .limit(limit)
                 .map(entry -> {
-                    com.project.oop.lms.model.Sach s = sachService.findById(entry.getKey());
+                    oop.project.model.Sach s = sachService.findById(entry.getKey());
                     String title = (s != null) ? s.getTieuDe() : "Unknown ISBN: " + entry.getKey();
                     return title + " (Muon: " + entry.getValue() + " luot)";
                 })

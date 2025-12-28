@@ -1,7 +1,7 @@
 package oop.project.service;
 import com.google.gson.reflect.TypeToken;
-import com.project.oop.lms.model.ThuThu;
-import com.project.oop.lms.repository.JsonDataManager;
+import oop.project.model.ThuThu;
+import oop.project.repository.JsonDataManager;
 
 import java.lang.reflect.Type;
 import java.util.List;
