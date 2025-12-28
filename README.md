@@ -1,5 +1,5 @@
 # Hệ Thống Quản Lý Thư Viện (Library Management System - LMS)
-Ứng dụng quản lý thư viện được viết bằng ngôn ngữ Java, sử dụng mô hình hướng đối tượng (OOP). Ứng dụng cung cấp giao diện Console (Command Line Interface) để thực hiện các nghiệp vụ quản lý sách, độc giả và mượn trả sách.
+Ứng dụng quản lý thư viện được viết bằng ngôn ngữ Java, sử dụng mô hình hướng đối tượng (OOP). Ứng dụng cung cấp giao diện GUI(Graphical User Interface) để thực hiện các nghiệp vụ quản lý sách, độc giả và mượn trả sách.
 Ứng dụng được tạo ra để phụ vụ bài tập lớn môn OOP - Lập trình hướng đối tượng
 
 ## Tính năng chính
