@@ -38,10 +38,10 @@ mvn javaFX:run
 Lần đầu chạy ứng dụng sẽ tự động tạo 5 file Json chứa DataInitializer, có thể thay đổi dự liệu khởi tạo trong oop.project.util.DataInitializer
 
 ## Tác giả
-Mai Tiến Hoàng
-Nguyễn Văn Phát
-Trần Chí Cường
-Vũ Xuân Kỳ
-Nguyễn Huy Cường
+* Mai Tiến Hoàng
+* Nguyễn Văn Phát
+* Trần Chí Cường
+* Vũ Xuân Kỳ
+* Nguyễn Huy Cường
 
   
