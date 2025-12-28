@@ -1,4 +1,4 @@
-#Hệ Thống Quản Lý Thư Viện (Library Management System - LMS)
+# Hệ Thống Quản Lý Thư Viện (Library Management System - LMS)
 Ứng dụng quản lý thư viện được viết bằng ngôn ngữ Java, sử dụng mô hình hướng đối tượng (OOP). Ứng dụng cung cấp giao diện Console (Command Line Interface) để thực hiện các nghiệp vụ quản lý sách, độc giả và mượn trả sách.
 Ứng dụng được tạo ra để phụ vụ bài tập lớn môn OOP - Lập trình hướng đối tượng
 
@@ -33,6 +33,9 @@
 mvn clean install
 2. **Chạy ứng dụng**
 mvn javaFX:run
+
+## Lưu ý:
+Lần đầu chạy ứng dụng sẽ tự động tạo 5 file Json chứa DataInitializer, có thể thay đổi dự liệu khởi tạo trong oop.project.util.DataInitializer
 
 ## Tác giả
 Mai Tiến Hoàng
