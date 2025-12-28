@@ -1,9 +1,9 @@
-package com.project.oop.lms.service;
+package oop.project.service;
 
 import com.google.gson.reflect.TypeToken;
-import com.project.oop.lms.model.Sach;
-import com.project.oop.lms.model.SachVatLy;
-import com.project.oop.lms.repository.JsonDataManager;
+import oop.project.model.Sach;
+import oop.project.model.SachVatLy;
+import oop.project.repository.JsonDataManager;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

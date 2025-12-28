@@ -1,10 +1,10 @@
-package com.project.oop.lms.service;
+package oop.project.service;
 
 import com.google.gson.reflect.TypeToken;
-import com.project.oop.lms.model.DocGia;
-import com.project.oop.lms.model.PhieuMuon;
-import com.project.oop.lms.model.SachVatLy;
-import com.project.oop.lms.repository.JsonDataManager;
+import oop.project.model.DocGia;
+import oop.project.model.PhieuMuon;
+import oop.project.model.SachVatLy;
+import oop.project.repository.JsonDataManager;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
