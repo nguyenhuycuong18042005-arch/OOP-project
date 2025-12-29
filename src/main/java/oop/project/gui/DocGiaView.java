@@ -53,6 +53,29 @@ public class DocGiaView {
         // Load data
         refreshTable(table);
 
+        HBox searchBox = new HBox(10);
+        searchBox.setPadding(new Insets(5, 0, 5, 0));
+        Label lblSearch = new Label("Tìm kiếm:");
+        TextField txtSearch = new TextField();
+        txtSearch.setPromptText("Nhập ID, tên hoặc số điện thoại...");
+        txtSearch.setPrefWidth(300);
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                refreshTable(table);
+            } else {
+                String keyword = newValue.toLowerCase();
+                var filtered = docGiaService.getAll().stream()
+                        .filter(d -> d.getId().toLowerCase().contains(keyword) ||
+                                d.getHoTen().toLowerCase().contains(keyword) ||
+                                d.getSoDienThoai().toLowerCase().contains(keyword))
+                        .collect(java.util.stream.Collectors.toList());
+                table.setItems(FXCollections.observableArrayList(filtered));
+            }
+        });
+
+        searchBox.getChildren().addAll(lblSearch, txtSearch);
+
         // Buttons
         HBox buttonBox = new HBox(10);
         Button btnAdd = new Button("Thêm Độc Giả");
@@ -76,7 +99,7 @@ public class DocGiaView {
 
         buttonBox.getChildren().addAll(btnAdd, btnEdit, btnDelete);
 
-        root.getChildren().addAll(lblTitle, table, buttonBox);
+        root.getChildren().addAll(lblTitle, searchBox, table, buttonBox);
         return root;
     }
 

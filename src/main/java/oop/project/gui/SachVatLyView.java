@@ -56,6 +56,33 @@ public class SachVatLyView {
 
         refreshTable(table);
 
+        HBox searchBox = new HBox(10);
+        searchBox.setPadding(new Insets(5, 0, 5, 0));
+        Label lblSearch = new Label("Tìm kiếm:");
+        TextField txtSearch = new TextField();
+        txtSearch.setPromptText("Nhập mã vạch, ISBN, tiêu đề hoặc vị trí kệ...");
+        txtSearch.setPrefWidth(350);
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                refreshTable(table);
+            } else {
+                String keyword = newValue.toLowerCase();
+                var filtered = sachService.getAllSachVatLy().stream()
+                        .filter(sv -> {
+                            Sach s = sachService.findById(sv.getIsbn());
+                            String title = (s != null ? s.getTieuDe() : "").toLowerCase();
+                            return sv.getMaVach().toLowerCase().contains(keyword) ||
+                                    sv.getIsbn().toLowerCase().contains(keyword) ||
+                                    sv.getViTriKe().toLowerCase().contains(keyword) ||
+                                    title.contains(keyword);
+                        })
+                        .collect(java.util.stream.Collectors.toList());
+                table.setItems(FXCollections.observableArrayList(filtered));
+            }
+        });
+
+        searchBox.getChildren().addAll(lblSearch, txtSearch);
 
         HBox buttonBox = new HBox(10);
         Button btnAdd = new Button("Thêm bản sao");
@@ -79,7 +106,7 @@ public class SachVatLyView {
 
         buttonBox.getChildren().addAll(btnAdd, btnEdit, btnDelete);
 
-        root.getChildren().addAll(lblTitle, table, buttonBox);
+        root.getChildren().addAll(lblTitle, searchBox, table, buttonBox);
         return root;
     }
 

@@ -48,10 +48,32 @@ public class SachView {
             table.getColumns().add(colAuthor);
             table.getColumns().add(colYear);
 
-            // Load data
+
             refreshTable(table);
 
-            // Buttons
+            HBox searchBox = new HBox(10);
+            searchBox.setPadding(new Insets(5, 0, 5, 0));
+            Label lblSearch = new Label("Tìm kiếm:");
+            TextField txtSearch = new TextField();
+            txtSearch.setPromptText("Nhập tiêu đề, tác giả hoặc ISBN...");
+            txtSearch.setPrefWidth(300);
+
+            txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue == null || newValue.trim().isEmpty()) {
+                    refreshTable(table);
+                } else {
+                    String keyword = newValue.toLowerCase();
+                    var filtered = sachService.getAll().stream()
+                            .filter(s -> s.getTieuDe().toLowerCase().contains(keyword) ||
+                                    s.getTacGia().toLowerCase().contains(keyword) ||
+                                    s.getIsbn().toLowerCase().contains(keyword))
+                            .collect(java.util.stream.Collectors.toList());
+                    table.setItems(FXCollections.observableArrayList(filtered));
+                }
+            });
+
+            searchBox.getChildren().addAll(lblSearch, txtSearch);
+
             HBox buttonBox = new HBox(10);
             Button btnAdd = new Button("Thêm sách");
             Button btnEdit = new Button("Sửa sách");
@@ -81,7 +103,7 @@ public class SachView {
 
             buttonBox.getChildren().addAll(btnAdd, btnEdit, btnDelete, btnCopies);
 
-            root.getChildren().addAll(lblTitle, table, buttonBox);
+            root.getChildren().addAll(lblTitle, searchBox, table, buttonBox);
             return root;
         }
 
@@ -214,7 +236,6 @@ public class SachView {
             table.getColumns().add(colShelf);
             table.getColumns().add(colStatus);
 
-            // Filter copies for this book
             Runnable refresh = () -> {
                 table.setItems(FXCollections.observableArrayList(
                         sachService.getAllSachVatLy().stream()

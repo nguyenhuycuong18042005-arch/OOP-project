@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.Node.*;
 
+import oop.project.model.SachVatLy;
 import oop.project.model.ThuThu;
 import oop.project.service.DocGiaService;
 import oop.project.service.MuonTraService;
@@ -43,16 +44,20 @@ public class MainView {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         Tab tabSach = new Tab("Sách");
-        tabSach.setContent(new SachView(sachService).getView());
+        SachView sachView = new SachView(sachService);
+        tabSach.setContent(sachView.getView());
 
         Tab tabSachHu = new Tab("Bản sao vật lý");
-        tabSachHu.setContent(new SachVatLyView(sachService).getView());
+        SachVatLyView sachVatLyView = new SachVatLyView(sachService);
+        tabSachHu.setContent(sachVatLyView.getView());
 
         Tab tabDocGia = new Tab("Độc Giả");
-        tabDocGia.setContent(new DocGiaView(docGiaService).getView());
+        DocGiaView docGiaView = new DocGiaView(docGiaService);
+        tabDocGia.setContent(docGiaView.getView());
 
         Tab tabMuonTra = new Tab("Mượn trả");
-        tabMuonTra.setContent(new MuonTraView(muonTraService, sachService, docGiaService).getView());
+        MuonTraView muonTraView = new MuonTraView(muonTraService, sachService, docGiaService);
+        tabMuonTra.setContent(muonTraView.getView());
 
         Tab tabThongKe = new Tab("Báo cáo - Thống kê");
         BaoCaoView reportView = new BaoCaoView(muonTraService, sachService, docGiaService);
