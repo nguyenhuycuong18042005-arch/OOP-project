@@ -253,12 +253,29 @@ public class SachView {
             Button btnDel = new Button("Xoá mục đã chọn");
 
             btnAdd.setOnAction(e -> {
-                if (!txtBarcode.getText().isEmpty()) {
-                    sachService.addSachVatLy(new oop.project.model.SachVatLy(txtBarcode.getText(), book.getIsbn(),
-                            txtShelf.getText()));
-                    txtBarcode.clear();
-                    refresh.run();
+                String barcode = txtBarcode.getText().trim();
+                String shelf = txtShelf.getText().trim();
+
+                if (barcode.isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng nhập mã vạch!");
+                    alert.show();
+                    return;
                 }
+
+                // Check if barcode already exists
+                if (sachService.findSachVatLyByMaVach(barcode) != null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Mã vạch đã tồn tại!");
+                    alert.show();
+                    return;
+                }
+
+                sachService.addSachVatLy(new oop.project.model.SachVatLy(barcode, book.getIsbn(), shelf));
+                txtBarcode.clear();
+                txtShelf.clear();
+                refresh.run();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Đã thêm bản sao thành công!");
+                alert.show();
             });
 
             btnDel.setOnAction(e -> {
