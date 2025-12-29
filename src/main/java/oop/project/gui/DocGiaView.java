@@ -184,6 +184,7 @@ public class DocGiaView {
         dialog.showAndWait().ifPresent(reader -> {
             docGiaService.update(reader);
             refreshTable(table);
+            table.refresh();
         });
     }
 }
