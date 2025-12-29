@@ -164,18 +164,26 @@ public class DocGiaView {
 
         TextField name = new TextField(existing.getHoTen());
         TextField phone = new TextField(existing.getSoDienThoai());
+        DatePicker expiryDate = new DatePicker(existing.getNgayHetHanThe());
 
-        grid.add(new Label("Họ tên:"), 0, 1);
-        grid.add(name, 1, 1);
-        grid.add(new Label("Số điện thoại:"), 0, 2);
-        grid.add(phone, 1, 2);
+        grid.add(new Label("Họ tên:"), 0, 0);
+        grid.add(name, 1, 0);
+        grid.add(new Label("Số điện thoại:"), 0, 1);
+        grid.add(phone, 1, 1);
+        grid.add(new Label("Ngày hết hạn thẻ:"), 0, 2);
+        grid.add(expiryDate, 1, 2);
 
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == btnSave) {
-                existing.setHoTen(name.getText());
-                existing.setSoDienThoai(phone.getText());
+                String newName = name.getText().trim();
+                String newPhone = phone.getText().trim();
+                LocalDate newExpiry = expiryDate.getValue();
+
+                existing.setHoTen(newName);
+                existing.setSoDienThoai(newPhone);
+                existing.setNgayHetHanThe(newExpiry);
                 return existing;
             }
             return null;
