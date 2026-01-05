@@ -87,6 +87,7 @@ public class PhieuMuon {
         return LocalDate.now().isAfter(hanTra);
     }
 
+    // Tính tiền phạt dựa trên số ngày trả muộn
     public void tinhTienPhat() {
         if (isQuaHan() && ngayTraThucTe != null) {
             long daysOver = ChronoUnit.DAYS.between(hanTra, ngayTraThucTe);

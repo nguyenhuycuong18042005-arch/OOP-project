@@ -5,6 +5,7 @@ public class DocGia extends Nguoi {
     private LocalDate ngayHetHanThe;
     private int soSachDangMuon;
     // private List<PhieuMuon> danhSachPhieuMuon;
+    // Số lượng sách tối đa một độc giả được mượn cùng lúc
     public static final int SO_SACH_DANG_MUON_MAX = 3;
     public DocGia() {
         super();
@@ -32,6 +33,7 @@ public class DocGia extends Nguoi {
         this.soSachDangMuon = soSachDangMuon;
     }
 
+    // Kiểm tra thẻ độc giả còn hiệu lực hay không
     public boolean kiemTraHanThe() {
         if (ngayHetHanThe == null)
             return false;

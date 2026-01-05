@@ -27,6 +27,7 @@ public class DocGiaView {
         Label lblTitle = new Label("Quản lý độc giả");
         lblTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
+        // Hiển thị danh sách độc giả
         TableView<DocGia> table = new TableView<>();
 
         TableColumn<DocGia, String> colId = new TableColumn<>("ID");

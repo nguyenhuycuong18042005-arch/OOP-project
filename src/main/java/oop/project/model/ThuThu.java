@@ -1,6 +1,6 @@
 package oop.project.model;
 public class ThuThu extends Nguoi {
-    private String matKhau;
+    private String matKhau; // Mật khẩu dùng cho việc đăng nhập hệ thống của thủ thư
     
 
     public ThuThu() {

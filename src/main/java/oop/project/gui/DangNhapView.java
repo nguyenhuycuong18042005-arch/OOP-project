@@ -16,7 +16,9 @@ import javax.swing.text.PasswordView;
 
 
 public class DangNhapView {
+    // thuộc tính giao diện chính, cửa sổ chính
     private final Stage stage;
+    // thuộc tính xử lý đăng nhập
     private final ThuThuService thuThuService;
 
     public DangNhapView(Stage stage){
@@ -29,14 +31,17 @@ public class DangNhapView {
         root.setPadding(new Insets(20));
         root.setAlignment(Pos.CENTER);
 
+        // Tên hệ thống
         Label title = new Label("Hệ thống quản lý thư viện");
         title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
+        // Form đăng nhập
         GridPane grid = new GridPane();
         grid.setVgap(10);
         grid.setHgap(10);
         grid.setAlignment(Pos.CENTER);
 
+        // Ô nhập tài khoản, mật khẩu
         Label labelUser = new Label("Tài khoản");
         TextField textUser = new TextField();
 
@@ -55,8 +60,10 @@ public class DangNhapView {
         btnLogin.setOnAction(e -> {
             String id = textUser.getText();
             String pw = textPass.getText();
+            // Kiểm tra đăng nhập
             ThuThu user = thuThuService.login(id, pw);
             if (user != null) {
+                // Đăng nhập đúng thì hiện ra mainview
                 lblMessage.setText("Đăng nhập thành công!");
 
                 MainView mainView = new MainView(stage, user);
