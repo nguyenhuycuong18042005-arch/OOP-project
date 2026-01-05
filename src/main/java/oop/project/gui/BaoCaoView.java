@@ -12,12 +12,16 @@ import oop.project.service.SachService;
 import java.util.List;
 
 public class BaoCaoView {
+    // Các service cần thiết
     private MuonTraService muonTraService;
     private SachService sachService;
     private DocGiaService docGiaService;
     private TextArea txtReport;
 
-    public BaoCaoView(MuonTraService muonTraService, SachService sachService, DocGiaService docGiaService) {
+    // constructor nhận service từ mainview truyền vào
+
+    public BaoCaoView(MuonTraService muonTraService, SachService sachService, DocGiaService docGiaService  ) {
+       // Lưu service để dùng trong class
         this.muonTraService = muonTraService;
         this.sachService = sachService;
         this.docGiaService = docGiaService;
@@ -27,9 +31,11 @@ public class BaoCaoView {
         VBox root = new VBox(10);
         root.setPadding(new Insets(10));
 
+        // Label tiêu đề, 
         Label lblTitle = new Label("Báo cáo - Thống kê");
         lblTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
+        // Ô hiển thị báo cáo
         txtReport = new TextArea();
         txtReport.setEditable(false);
         txtReport.setPrefHeight(400);
@@ -41,17 +47,20 @@ public class BaoCaoView {
         return root;
     }
 
+    // Phương thức được gọi khi cập nhật lại số liệu
     public void refresh() {
         if (txtReport == null)
             return;
 
         StringBuilder sb = new StringBuilder();
 
-        // General Stats
+        // General Stats Lọc sách có trạng thái "Đang mượn và đếm số lượng"
         long totalBooks = sachService.getAllSachVatLy().size();
         long borrowed = sachService.getAllSachVatLy().stream()
                 .filter(s -> "DANG_MUON".equals(s.getTrangThai()))
                 .count();
+        
+        // Ghi những dữ liệu thống kê và báo cáo    
         sb.append("--- Thống kê hệ thống ---\n");
         sb.append("Tổng sách vật lý đang có: ").append(totalBooks).append("\n");
         sb.append("Đang mượn: ").append(borrowed).append("\n");

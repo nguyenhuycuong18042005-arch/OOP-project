@@ -29,6 +29,7 @@ public class MainView {
         header.setStyle("-fx-font-size: 16px; -fx-padding: 10; -fx-background-color: #eee;");
         root.setTop(header);
 
+        // Khởi tạo service dùng chung trong hệ thống
         SachService sachService = new SachService();
         DocGiaService docGiaService = new DocGiaService();
         MuonTraService muonTraService = new MuonTraService(sachService, docGiaService);
@@ -39,6 +40,7 @@ public class MainView {
             System.out.println("Dữ liệu mẫu đã được khởi tạo thành công!\n");
         }
 
+        // Tạo tab, mỗi tab là 1 chức năng
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
@@ -61,6 +63,7 @@ public class MainView {
         tabPane.getTabs().addAll(tabSach, tabSachHu, tabDocGia, tabMuonTra, tabThongKe);
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) -> {
+            // refresh lại báo cáo để cập nhật số liệu mới
             if (newTab == tabThongKe) {
                 reportView.refresh();
             }
