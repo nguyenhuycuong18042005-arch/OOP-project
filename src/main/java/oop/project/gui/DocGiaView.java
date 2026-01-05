@@ -54,6 +54,29 @@ public class DocGiaView {
         // Load data
         refreshTable(table);
 
+        HBox searchBox = new HBox(10);
+        searchBox.setPadding(new Insets(5, 0, 5, 0));
+        Label lblSearch = new Label("Tìm kiếm:");
+        TextField txtSearch = new TextField();
+        txtSearch.setPromptText("Nhập ID, tên hoặc số điện thoại...");
+        txtSearch.setPrefWidth(300);
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                refreshTable(table);
+            } else {
+                String keyword = newValue.toLowerCase();
+                var filtered = docGiaService.getAll().stream()
+                        .filter(d -> d.getId().toLowerCase().contains(keyword) ||
+                                d.getHoTen().toLowerCase().contains(keyword) ||
+                                d.getSoDienThoai().toLowerCase().contains(keyword))
+                        .collect(java.util.stream.Collectors.toList());
+                table.setItems(FXCollections.observableArrayList(filtered));
+            }
+        });
+
+        searchBox.getChildren().addAll(lblSearch, txtSearch);
+
         // Buttons
         HBox buttonBox = new HBox(10);
         Button btnAdd = new Button("Thêm Độc Giả");
@@ -77,7 +100,7 @@ public class DocGiaView {
 
         buttonBox.getChildren().addAll(btnAdd, btnEdit, btnDelete);
 
-        root.getChildren().addAll(lblTitle, table, buttonBox);
+        root.getChildren().addAll(lblTitle, searchBox, table, buttonBox);
         return root;
     }
 
@@ -142,18 +165,26 @@ public class DocGiaView {
 
         TextField name = new TextField(existing.getHoTen());
         TextField phone = new TextField(existing.getSoDienThoai());
+        DatePicker expiryDate = new DatePicker(existing.getNgayHetHanThe());
 
-        grid.add(new Label("Họ tên:"), 0, 1);
-        grid.add(name, 1, 1);
-        grid.add(new Label("Số điện thoại:"), 0, 2);
-        grid.add(phone, 1, 2);
+        grid.add(new Label("Họ tên:"), 0, 0);
+        grid.add(name, 1, 0);
+        grid.add(new Label("Số điện thoại:"), 0, 1);
+        grid.add(phone, 1, 1);
+        grid.add(new Label("Ngày hết hạn thẻ:"), 0, 2);
+        grid.add(expiryDate, 1, 2);
 
         dialog.getDialogPane().setContent(grid);
 
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == btnSave) {
-                existing.setHoTen(name.getText());
-                existing.setSoDienThoai(phone.getText());
+                String newName = name.getText().trim();
+                String newPhone = phone.getText().trim();
+                LocalDate newExpiry = expiryDate.getValue();
+
+                existing.setHoTen(newName);
+                existing.setSoDienThoai(newPhone);
+                existing.setNgayHetHanThe(newExpiry);
                 return existing;
             }
             return null;
@@ -162,6 +193,7 @@ public class DocGiaView {
         dialog.showAndWait().ifPresent(reader -> {
             docGiaService.update(reader);
             refreshTable(table);
+            table.refresh();
         });
     }
 }

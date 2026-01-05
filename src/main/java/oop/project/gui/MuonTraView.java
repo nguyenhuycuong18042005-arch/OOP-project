@@ -59,10 +59,30 @@ public class MuonTraView {
         table.getColumns().add(colDue);
         table.getColumns().add(colReturn);
 
-        // Load data
         refreshTable(table);
 
-        // Buttons
+        HBox searchBox = new HBox(10);
+        searchBox.setPadding(new Insets(5, 0, 5, 0));
+        Label lblSearch = new Label("Tìm kiếm:");
+        TextField txtSearch = new TextField();
+        txtSearch.setPromptText("Nhập mã phiếu mượn hoặc mã độc giả...");
+        txtSearch.setPrefWidth(300);
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                refreshTable(table);
+            } else {
+                String keyword = newValue.toLowerCase();
+                var filtered = muonTraService.getAll().stream()
+                        .filter(pm -> pm.getMaPhieu().toLowerCase().contains(keyword) ||
+                                pm.getIdDocGia().toLowerCase().contains(keyword))
+                        .collect(java.util.stream.Collectors.toList());
+                table.setItems(FXCollections.observableArrayList(filtered));
+            }
+        });
+
+        searchBox.getChildren().addAll(lblSearch, txtSearch);
+
         HBox buttonBox = new HBox(10);
         Button btnBorrow = new Button("Tạo phiếu mượn");
         Button btnReturn = new Button("Trả sách");
@@ -100,7 +120,7 @@ public class MuonTraView {
 
         buttonBox.getChildren().addAll(btnBorrow, btnReturn, btnDelete);
 
-        root.getChildren().addAll(lblTitle, table, buttonBox);
+        root.getChildren().addAll(lblTitle, searchBox, table, buttonBox);
         return root;
     }
 

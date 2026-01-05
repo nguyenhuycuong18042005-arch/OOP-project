@@ -48,10 +48,32 @@ public class SachView {
             table.getColumns().add(colAuthor);
             table.getColumns().add(colYear);
 
-            // Load data
+
             refreshTable(table);
 
-            // Buttons
+            HBox searchBox = new HBox(10);
+            searchBox.setPadding(new Insets(5, 0, 5, 0));
+            Label lblSearch = new Label("Tìm kiếm:");
+            TextField txtSearch = new TextField();
+            txtSearch.setPromptText("Nhập tiêu đề, tác giả hoặc ISBN...");
+            txtSearch.setPrefWidth(300);
+
+            txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue == null || newValue.trim().isEmpty()) {
+                    refreshTable(table);
+                } else {
+                    String keyword = newValue.toLowerCase();
+                    var filtered = sachService.getAll().stream()
+                            .filter(s -> s.getTieuDe().toLowerCase().contains(keyword) ||
+                                    s.getTacGia().toLowerCase().contains(keyword) ||
+                                    s.getIsbn().toLowerCase().contains(keyword))
+                            .collect(java.util.stream.Collectors.toList());
+                    table.setItems(FXCollections.observableArrayList(filtered));
+                }
+            });
+
+            searchBox.getChildren().addAll(lblSearch, txtSearch);
+
             HBox buttonBox = new HBox(10);
             Button btnAdd = new Button("Thêm sách");
             Button btnEdit = new Button("Sửa sách");
@@ -81,7 +103,7 @@ public class SachView {
 
             buttonBox.getChildren().addAll(btnAdd, btnEdit, btnDelete, btnCopies);
 
-            root.getChildren().addAll(lblTitle, table, buttonBox);
+            root.getChildren().addAll(lblTitle, searchBox, table, buttonBox);
             return root;
         }
 
@@ -214,7 +236,6 @@ public class SachView {
             table.getColumns().add(colShelf);
             table.getColumns().add(colStatus);
 
-            // Filter copies for this book
             Runnable refresh = () -> {
                 table.setItems(FXCollections.observableArrayList(
                         sachService.getAllSachVatLy().stream()
@@ -232,12 +253,29 @@ public class SachView {
             Button btnDel = new Button("Xoá mục đã chọn");
 
             btnAdd.setOnAction(e -> {
-                if (!txtBarcode.getText().isEmpty()) {
-                    sachService.addSachVatLy(new oop.project.model.SachVatLy(txtBarcode.getText(), book.getIsbn(),
-                            txtShelf.getText()));
-                    txtBarcode.clear();
-                    refresh.run();
+                String barcode = txtBarcode.getText().trim();
+                String shelf = txtShelf.getText().trim();
+
+                if (barcode.isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "Vui lòng nhập mã vạch!");
+                    alert.show();
+                    return;
                 }
+
+                // Check if barcode already exists
+                if (sachService.findSachVatLyByMaVach(barcode) != null) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Mã vạch đã tồn tại!");
+                    alert.show();
+                    return;
+                }
+
+                sachService.addSachVatLy(new oop.project.model.SachVatLy(barcode, book.getIsbn(), shelf));
+                txtBarcode.clear();
+                txtShelf.clear();
+                refresh.run();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Đã thêm bản sao thành công!");
+                alert.show();
             });
 
             btnDel.setOnAction(e -> {
