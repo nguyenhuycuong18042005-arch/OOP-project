@@ -1,6 +1,8 @@
 package oop.project.model;
 
 public abstract class Nguoi {
+// Lớp trừu tượng đại diện cho một người trong hệ thống thư viện
+// Dùng làm lớp cha cho DocGia, ThuThu,...
     protected String id;
     protected String hoTen;
     protected String soDienThoai;
